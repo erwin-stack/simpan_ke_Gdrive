@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simpan ke Google Drive</title>
+</head>
+<body>
+
+    <h1>Aplikasi Penyimpan Data</h1>
+    
+    <!-- Ini adalah tempat kita memasukkan data -->
+    <input type="text" id="isiData" placeholder="Tulis sesuatu di sini...">
+    <button id="btnSimpan">Simpan ke Drive</button>
+    
+    <!-- Ini tempat menampilkan status sukses atau gagal -->
+    <p id="status"></p>
+
+    <script>
+        document.getElementById("btnSimpan").addEventListener("click", function() {
+            const status = document.getElementById("status");
+            const inputData = document.getElementById("isiData").value;
+
+            status.innerText = "Sedang mengirim...";
+
+            // GANTI URL DI BAWAH INI DENGAN URL WEB APP ANDA
+            const url = "https://script.google.com/macros/s/AKfycbyFDGi0n4Og4RRdFZKSiQrY1qi65T4eXOUO_fr7DkCyDJ7he8kf1kQ9aJd2xqento0lNw/exec";
+
+            const data = {
+                namaFile: "catatan-saya.txt", // Nama file yang akan muncul di Drive
+                isiFile: inputData            // Mengambil isi dari kotak teks
+            };
+
+            fetch(url, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                status.innerText = "Berhasil! Cek Google Drive Anda.";
+            })
+            .catch(error => {
+                status.innerText = "Terjadi kesalahan: " + error;
+            });
+        });
+    </script>
+</body>
+</html>

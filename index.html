@@ -1,47 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Simpan ke Google Drive</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f0fdf4; text-align: center; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        h1 { color: #059669; }
+        select, input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; }
+        button { background-color: #059669; color: white; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #047857; }
+    </style>
 </head>
 <body>
 
-    <h1>Aplikasi Penyimpan Data</h1>
+<div class="card">
+    <h1>Quran Tracker 🌟</h1>
     
-    <!-- Ini adalah tempat kita memasukkan data -->
-    <input type="text" id="isiData" placeholder="Tulis sesuatu di sini...">
-    <button id="btnSimpan">Simpan ke Drive</button>
+    <select id="namaAnak">
+        <option value="Athiyah">Athiyah</option>
+        <option value="Hamzah">Hamzah</option>
+    </select>
+
+    <input type="text" id="namaSurat" placeholder="Nama Surat (Contoh: Al-Fatihah)">
+    <input type="text" id="jumlahAyat" placeholder="Ayat Ke- (Contoh: 1-5)">
     
-    <!-- Ini tempat menampilkan status sukses atau gagal -->
+    <button id="btnSimpan">Simpan Hafalan! ✅</button>
     <p id="status"></p>
+</div>
 
-    <script>
-        document.getElementById("btnSimpan").addEventListener("click", function() {
-            const status = document.getElementById("status");
-            const inputData = document.getElementById("isiData").value;
+<script>
+    document.getElementById("btnSimpan").addEventListener("click", function() {
+        const url = "https://script.google.com/macros/s/AKfycbyFDGi0n4Og4RRdFZKSiQrY1qi65T4eXOUO_fr7DkCyDJ7he8kf1kQ9aJd2xqento0lNw/exec";
+        const status = document.getElementById("status");
+        
+        const data = {
+            namaFile: document.getElementById("namaAnak").value + "_Hafalan.txt",
+            isiFile: "Nama: " + document.getElementById("namaAnak").value + 
+                     "\nSurat: " + document.getElementById("namaAnat").value + 
+                     "\nAyat: " + document.getElementById("jumlahAyat").value
+        };
 
-            status.innerText = "Sedang mengirim...";
+        status.innerText = "Sedang menyimpan...";
 
-            // GANTI URL DI BAWAH INI DENGAN URL WEB APP ANDA
-            const url = "https://script.google.com/macros/s/AKfycbyFDGi0n4Og4RRdFZKSiQrY1qi65T4eXOUO_fr7DkCyDJ7he8kf1kQ9aJd2xqento0lNw/exec";
-
-            const data = {
-                namaFile: "catatan-saya.txt", // Nama file yang akan muncul di Drive
-                isiFile: inputData            // Mengambil isi dari kotak teks
-            };
-
-            fetch(url, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            })
-            .then(() => {
-                status.innerText = "Berhasil! Cek Google Drive Anda.";
-            })
-            .catch(error => {
-                status.innerText = "Terjadi kesalahan: " + error;
-            });
+        fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(data)
+        }).then(() => {
+            status.innerText = "Alhamdulillah, berhasil disimpan!";
         });
-    </script>
+    });
+</script>
 </body>
 </html>
